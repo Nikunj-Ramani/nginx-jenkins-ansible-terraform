@@ -19,10 +19,10 @@ pipeline {
         script {
           if (params.Action == "apply") {
             sh 'terraform init terraform/static-site'
-            sh 'terraform apply -var "name=webserver" -var "group=dev" -var "region=us-east-1" -var "profile=scottyfullstack" --auto-approve terraform/static-site'
+            sh 'terraform apply -var "name=webserver" -var "group=dev" -var "region=us-east-1" -var "profile=nikunjramani" --auto-approve terraform/static-site'
           } 
           else {
-            sh 'terraform destroy -var "name=webserver" -var "group=dev" -var "region=us-east-1" -var "profile=scottyfullstack" --auto-approve terraform/static-site'
+            sh 'terraform destroy -var "name=webserver" -var "group=dev" -var "region=us-east-1" -var "profile=nikunjramani" --auto-approve terraform/static-site'
           }
         }
       }
