@@ -1,3 +1,9 @@
+import groovy.json.*
+import hudson.FilePath;
+import jenkins.model.*;
+
+def dirpath = "/var/lib/jenkins/workspace/nginx-jenkins-ansible-terraform-project/terraform/static-site"
+
 pipeline {
   agent any
   parameters {
@@ -10,7 +16,7 @@ pipeline {
 
     stage('Checkout') {
         steps {
-            git branch: 'master', credentialsId: 'Github', url: 'git@github.com:Nikunj-Ramani/nginx-jenkins-ansible-terraform.git'
+            git branch: 'main', credentialsId: '1755868e-6441-4ac0-9b05-7bf5d0fef9a1', url: 'https://github.com/Nikunj-Ramani/nginx-jenkins-ansible-terraform.git'
         }
     }
 
@@ -18,11 +24,16 @@ pipeline {
       steps {
         script {
           if (params.Action == "apply") {
-            sh 'terraform init terraform/static-site'
-            sh 'terraform apply -var "name=webserver" -var "group=dev" -var "region=us-east-1" -var "profile=nikunjramani" --auto-approve terraform/static-site'
+            dir(dirpath){
+                sh 'terraform init'
+                sh 'terraform apply -var "name=webserver" -var "group=dev" -var "region=us-east-1" -var "profile=nikunjramani" --auto-approve'
+            }     
           } 
           else {
-            sh 'terraform destroy -var "name=webserver" -var "group=dev" -var "region=us-east-1" -var "profile=nikunjramani" --auto-approve terraform/static-site'
+            dir(dirpath){
+                sh 'terraform init'
+                sh 'terraform destroy -var "name=webserver" -var "group=dev" -var "region=us-east-1" -var "profile=nikunjramani" --auto-approve'
+            }     
           }
         }
       }
